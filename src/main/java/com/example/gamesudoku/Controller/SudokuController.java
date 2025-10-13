@@ -29,8 +29,6 @@ public class SudokuController {
     @FXML
     public void initialize() {
     sudoku = new JuegoSudoku();
-    sudoku.sudokuResuelto();
-    juegoResuelto = sudoku.getJuegoResuelto();
     int[][] tableroInicial = sudoku.getTableroInicial();
     setupGridPane(tableroInicial);
     }

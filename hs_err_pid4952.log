@@ -18,7 +18,7 @@
 #     to set the Java Heap base and to place the Java Heap above 32GB virtual address.
 # This output file may be truncated or incomplete.
 #
-#  Out of Memory Error (os_windows.cpp:3618), pid=4952, tid=1804
+#  Out of Memory Error (os_windows.cpp:3618), pid=4952, tid=10148
 #
 # JRE version:  (17.0.16+8) (build )
 # Java VM: OpenJDK 64-Bit Server VM (17.0.16+8-LTS, mixed mode, sharing, tiered, compressed oops, compressed class ptrs, g1 gc, windows-amd64)
@@ -27,16 +27,16 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\lib\idea_rt.jar=49854:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\bin -Dfile.encoding=UTF-8 --module-path=C:\Users\Asus\.m2\repository\org\openjfx\javafx-graphics\17.0.6\javafx-graphics-17.0.6-win.jar;C:\Users\Asus\IdeaProjects\GameSudoku\target\classes;C:\Users\Asus\.m2\repository\org\openjfx\javafx-fxml\17.0.6\javafx-fxml-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-controls\17.0.6\javafx-controls-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-base\17.0.6\javafx-base-17.0.6-win.jar -Djdk.module.main=com.example.gamesudoku com.example.gamesudoku/com.example.gamesudoku.Main
+Command Line: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\lib\idea_rt.jar=56474:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\bin -Dfile.encoding=UTF-8 --module-path=C:\Users\Asus\.m2\repository\org\openjfx\javafx-graphics\17.0.6\javafx-graphics-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-controls\17.0.6\javafx-controls-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-fxml\17.0.6\javafx-fxml-17.0.6-win.jar;C:\Users\Asus\IdeaProjects\GameSudoku\target\classes;C:\Users\Asus\.m2\repository\org\openjfx\javafx-base\17.0.6\javafx-base-17.0.6-win.jar -Djdk.module.main=com.example.gamesudoku com.example.gamesudoku/com.example.gamesudoku.Main
 
 Host: AMD Ryzen 5 3500U with Radeon Vega Mobile Gfx  , 8 cores, 9G,  Windows 11 , 64 bit Build 26100 (10.0.26100.5074)
-Time: Wed Oct  8 22:03:25 2025 Hora est. Pacífico, Sudamérica elapsed time: 1.055660 seconds (0d 0h 0m 1s)
+Time: Mon Oct 13 12:29:36 2025 Hora est. Pacífico, Sudamérica elapsed time: 0.030910 seconds (0d 0h 0m 0s)
 
 ---------------  T H R E A D  ---------------
 
-Current thread (0x0000029f38614e80):  JavaThread "Unknown thread" [_thread_in_vm, id=1804, stack(0x000000e164100000,0x000000e164200000)]
+Current thread (0x00000232d44e6430):  JavaThread "Unknown thread" [_thread_in_vm, id=10148, stack(0x0000006369500000,0x0000006369600000)]
 
-Stack: [0x000000e164100000,0x000000e164200000]
+Stack: [0x0000006369500000,0x0000006369600000]
 Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
 V  [jvm.dll+0x681329]
 V  [jvm.dll+0x838dda]
@@ -65,22 +65,22 @@ C  [ntdll.dll+0x8d9c]
 ---------------  P R O C E S S  ---------------
 
 Threads class SMR info:
-_java_thread_list=0x00007ffbf5848f18, length=0, elements={
+_java_thread_list=0x00007ffc22628f18, length=0, elements={
 }
 
 Java Threads: ( => current thread )
 
 Other Threads:
-  0x0000029f38663d80 GCTaskThread "GC Thread#0" [stack: 0x000000e164200000,0x000000e164300000] [id=12964]
-  0x0000029f3866fd80 ConcurrentGCThread "G1 Main Marker" [stack: 0x000000e164300000,0x000000e164400000] [id=7408]
-  0x0000029f386721c0 ConcurrentGCThread "G1 Conc#0" [stack: 0x000000e164400000,0x000000e164500000] [id=2388]
+  0x00000232d4536150 GCTaskThread "GC Thread#0" [stack: 0x0000006369600000,0x0000006369700000] [id=21324]
+  0x00000232d4541cb0 ConcurrentGCThread "G1 Main Marker" [stack: 0x0000006369700000,0x0000006369800000] [id=15064]
+  0x00000232d4545d30 ConcurrentGCThread "G1 Conc#0" [stack: 0x0000006369800000,0x0000006369900000] [id=19772]
 
-[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffbf4fffb87]
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffc21ddfb87]
 
 VM state: not at safepoint (not fully initialized)
 
 VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
-[0x0000029f3860f690] Heap_lock - owner thread: 0x0000029f38614e80
+[0x00000232d44e1540] Heap_lock - owner thread: 0x00000232d44e6430
 
 Heap address: 0x0000000760c00000, size: 2548 MB, Compressed Oops mode: Zero based, Oop shift amount: 3
 
@@ -94,13 +94,13 @@ Heap:
  garbage-first heap   total 0K, used 0K [0x0000000760c00000, 0x0000000800000000)
   region size 2048K, 0 young (0K), 0 survivors (0K)
 
-[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffbf53ea529]
+[error occurred during error reporting (printing heap information), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffc221ca529]
 
 GC Heap History (0 events):
 No events
 
 Dll operation events (1 events):
-Event: 0.011 Loaded shared library C:\Users\Asus\.jdks\corretto-17.0.16\bin\java.dll
+Event: 0.018 Loaded shared library C:\Users\Asus\.jdks\corretto-17.0.16\bin\java.dll
 
 Deoptimization events (0 events):
 No events
@@ -131,24 +131,24 @@ No events
 
 
 Dynamic libraries:
-0x00007ff72b760000 - 0x00007ff72b76e000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\java.exe
+0x00007ff75d610000 - 0x00007ff75d61e000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\java.exe
 0x00007ffc84520000 - 0x00007ffc84789000 	C:\WINDOWS\SYSTEM32\ntdll.dll
 0x00007ffc83210000 - 0x00007ffc832d9000 	C:\WINDOWS\System32\KERNEL32.DLL
 0x00007ffc81830000 - 0x00007ffc81c23000 	C:\WINDOWS\System32\KERNELBASE.dll
 0x00007ffc81f00000 - 0x00007ffc8204b000 	C:\WINDOWS\System32\ucrtbase.dll
-0x00007ffc6e2f0000 - 0x00007ffc6e30b000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\VCRUNTIME140.dll
-0x00007ffc6ebb0000 - 0x00007ffc6ebc7000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\jli.dll
+0x00007ffc6f1f0000 - 0x00007ffc6f20b000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\VCRUNTIME140.dll
+0x00007ffc76740000 - 0x00007ffc76757000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\jli.dll
 0x00007ffc833f0000 - 0x00007ffc835b4000 	C:\WINDOWS\System32\USER32.dll
-0x00007ffc820e0000 - 0x00007ffc82107000 	C:\WINDOWS\System32\win32u.dll
 0x00007ffc6f5c0000 - 0x00007ffc6f853000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.5074_none_3e0d6f78e32fd63f\COMCTL32.dll
+0x00007ffc820e0000 - 0x00007ffc82107000 	C:\WINDOWS\System32\win32u.dll
 0x00007ffc838b0000 - 0x00007ffc83959000 	C:\WINDOWS\System32\msvcrt.dll
 0x00007ffc82560000 - 0x00007ffc8258b000 	C:\WINDOWS\System32\GDI32.dll
 0x00007ffc821c0000 - 0x00007ffc822ed000 	C:\WINDOWS\System32\gdi32full.dll
 0x00007ffc82110000 - 0x00007ffc821b3000 	C:\WINDOWS\System32\msvcp_win.dll
 0x00007ffc832e0000 - 0x00007ffc8330f000 	C:\WINDOWS\System32\IMM32.DLL
-0x00007ffc759b0000 - 0x00007ffc759bc000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\vcruntime140_1.dll
+0x00007ffc790e0000 - 0x00007ffc790ec000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\vcruntime140_1.dll
 0x00007ffc5abb0000 - 0x00007ffc5ac3d000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\msvcp140.dll
-0x00007ffbf4d10000 - 0x00007ffbf597c000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\server\jvm.dll
+0x00007ffc21af0000 - 0x00007ffc2275c000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\server\jvm.dll
 0x00007ffc83330000 - 0x00007ffc833e4000 	C:\WINDOWS\System32\ADVAPI32.dll
 0x00007ffc83960000 - 0x00007ffc83a06000 	C:\WINDOWS\System32\sechost.dll
 0x00007ffc823f0000 - 0x00007ffc82508000 	C:\WINDOWS\System32\RPCRT4.dll
@@ -158,20 +158,20 @@ Dynamic libraries:
 0x00007ffc79fc0000 - 0x00007ffc79ff5000 	C:\WINDOWS\SYSTEM32\WINMM.dll
 0x00007ffc814f0000 - 0x00007ffc81504000 	C:\WINDOWS\SYSTEM32\UMPDC.dll
 0x00007ffc80450000 - 0x00007ffc8046b000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
-0x00007ffc74e80000 - 0x00007ffc74e8a000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\jimage.dll
+0x00007ffc79070000 - 0x00007ffc7907a000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\jimage.dll
 0x00007ffc7c340000 - 0x00007ffc7c582000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
 0x00007ffc84160000 - 0x00007ffc844db000 	C:\WINDOWS\System32\combase.dll
 0x00007ffc82310000 - 0x00007ffc823e7000 	C:\WINDOWS\System32\OLEAUT32.dll
 0x00007ffc6da60000 - 0x00007ffc6da9d000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
 0x00007ffc81da0000 - 0x00007ffc81e39000 	C:\WINDOWS\System32\bcryptPrimitives.dll
-0x00007ffc6eba0000 - 0x00007ffc6ebae000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\instrument.dll
-0x00007ffc68240000 - 0x00007ffc68265000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\java.dll
+0x00007ffc78fe0000 - 0x00007ffc78fee000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\instrument.dll
+0x00007ffc6ed30000 - 0x00007ffc6ed55000 	C:\Users\Asus\.jdks\corretto-17.0.16\bin\java.dll
 
 dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
 symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Users\Asus\.jdks\corretto-17.0.16\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.5074_none_3e0d6f78e32fd63f;C:\Users\Asus\.jdks\corretto-17.0.16\bin\server
 
 VM Arguments:
-jvm_args: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\lib\idea_rt.jar=49854:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\bin -Dfile.encoding=UTF-8 --module-path=C:\Users\Asus\.m2\repository\org\openjfx\javafx-graphics\17.0.6\javafx-graphics-17.0.6-win.jar;C:\Users\Asus\IdeaProjects\GameSudoku\target\classes;C:\Users\Asus\.m2\repository\org\openjfx\javafx-fxml\17.0.6\javafx-fxml-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-controls\17.0.6\javafx-controls-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-base\17.0.6\javafx-base-17.0.6-win.jar -Djdk.module.main=com.example.gamesudoku 
+jvm_args: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\lib\idea_rt.jar=56474:C:\Program Files\JetBrains\IntelliJ IDEA 2024.2.0.1\bin -Dfile.encoding=UTF-8 --module-path=C:\Users\Asus\.m2\repository\org\openjfx\javafx-graphics\17.0.6\javafx-graphics-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-controls\17.0.6\javafx-controls-17.0.6-win.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-fxml\17.0.6\javafx-fxml-17.0.6-win.jar;C:\Users\Asus\IdeaProjects\GameSudoku\target\classes;C:\Users\Asus\.m2\repository\org\openjfx\javafx-base\17.0.6\javafx-base-17.0.6-win.jar -Djdk.module.main=com.example.gamesudoku 
 java_command: com.example.gamesudoku/com.example.gamesudoku.Main
 java_class_path (initial): C:\Users\Asus\.m2\repository\org\openjfx\javafx-controls\17.0.6\javafx-controls-17.0.6.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-graphics\17.0.6\javafx-graphics-17.0.6.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-base\17.0.6\javafx-base-17.0.6.jar;C:\Users\Asus\.m2\repository\org\openjfx\javafx-fxml\17.0.6\javafx-fxml-17.0.6.jar
 Launcher Type: SUN_STANDARD
@@ -204,7 +204,7 @@ Log output configuration:
  #1: stderr all=off uptime,level,tags
 
 Environment Variables:
-PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\Asus\AppData\Local\Microsoft\WindowsApps;
+PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Git\cmd;C:\Users\Asus\AppData\Local\Microsoft\WindowsApps;C:\Users\Asus\AppData\Local\GitHubDesktop\bin
 USERNAME=Asus
 OS=Windows_NT
 PROCESSOR_IDENTIFIER=AMD64 Family 23 Model 24 Stepping 1, AuthenticAMD
@@ -220,15 +220,15 @@ Periodic native trim disabled
 
 OS:
  Windows 11 , 64 bit Build 26100 (10.0.26100.5074)
-OS uptime: 33 days 22:33 hours
+OS uptime: 38 days 13:00 hours
 Hyper-V role detected
 
 CPU: total 8 (initial active 8) (8 cores per cpu, 2 threads per core) family 23 model 24 stepping 1 microcode 0x8108109, cx8, cmov, fxsr, ht, mmx, 3dnowpref, sse, sse2, sse3, ssse3, sse4a, sse4.1, sse4.2, popcnt, lzcnt, tsc, tscinvbit, avx, avx2, aes, clmul, bmi1, bmi2, adx, sha, fma, vzeroupper, clflush, clflushopt, hv
 Processor Information for all 8 processors :
   Max Mhz: 2100, Current Mhz: 2100, Mhz Limit: 2100
 
-Memory: 4k page, system-wide physical 10187M (1932M free)
-TotalPageFile size 12235M (AvailPageFile size 58M)
+Memory: 4k page, system-wide physical 10187M (950M free)
+TotalPageFile size 12235M (AvailPageFile size 16M)
 current process WorkingSet (physical memory assigned to process): 13M, peak: 13M
 current process commit charge ("private bytes"): 60M, peak: 220M
 
