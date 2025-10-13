@@ -3,11 +3,22 @@ package com.example.gamesudoku.Controller;
 import com.example.gamesudoku.Model.JuegoSudoku;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class SudokuController {
     private static final int SIZE = 6;
+
+    @FXML
+    private Button botonAyuda;
+
+    @FXML
+    private Button botonIniciarJuego;
+
+    @FXML
+    private Button botonReiniciarJuego;
 
     @FXML
     private GridPane gridTablero;
@@ -23,6 +34,31 @@ public class SudokuController {
     int[][] tableroInicial = sudoku.getTableroInicial();
     setupGridPane(tableroInicial);
     }
+
+    @FXML
+    private void iniciarNuevoJuego(){
+        sudoku = new JuegoSudoku();
+        sudoku.sudokuResuelto();
+        juegoResuelto = sudoku.getJuegoResuelto();
+        int[][] tableroInicial = sudoku.getTableroInicial();
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("¡Estas a punto de empezar!");
+        alerta.setHeaderText(null);
+        alerta.setContentText("¡Si desea iniciar da clic en aceptar.");
+        alerta.showAndWait();
+        setupGridPane(tableroInicial);
+
+    }
+
+    @FXML
+    private void botonReniciarJuego (){
+        sudoku = new JuegoSudoku();
+        sudoku.sudokuResuelto();
+        juegoResuelto = sudoku.getJuegoResuelto();
+        int[][] tableroInicial = sudoku.getTableroInicial();
+        setupGridPane(tableroInicial);
+    }
+
     private void setupGridPane(int[][] tableroDeInicio) {
         for (Node node : gridTablero.getChildren()) {
             if (node instanceof TextField) {
