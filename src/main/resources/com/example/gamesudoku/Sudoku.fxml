@@ -188,17 +188,17 @@
    <right>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="188.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="INICIAR JUEGO">
+            <Button fx:id="botonIniciarJuego" mnemonicParsing="false" onAction="#iniciarNuevoJuego" text="NUEVO JUEGO">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" text="REINICIAR JUEGO">
+            <Button fx:id="botonReiniciarJuego" mnemonicParsing="false" onAction="#botonReniciarJuego" text="REINICIAR JUEGO">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="111.0" text="AYUDA" textFill="#080707">
+            <Button fx:id="botonAyuda" mnemonicParsing="false" prefHeight="24.0" prefWidth="111.0" text="AYUDA" textFill="#080707">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
