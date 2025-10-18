@@ -141,7 +141,7 @@ public class SudokuController {
     }
 
     /**
-     * Reinicia el juego actual, generando un nuevo tablero y solución
+     * Reinicia el juego actual, y dando la opción de generar otro juego.
      */
     @FXML
     private void reiniciarJuego() {
@@ -171,6 +171,11 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Genera una sugerencia a jugador de un número correcto.
+     * Busca una celda vacía para y coloca el número correcto,
+     * Solo deja pedir 5 ayudas.
+     */
     @FXML
     private void pedirAyuda() {
         if (juegoResuelto == null) {
@@ -247,6 +252,9 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Bandera para indicar si el juego termino.
+     */
     private boolean juegoTerminado = false;
 
     /**
