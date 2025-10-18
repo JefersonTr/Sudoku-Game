@@ -9,7 +9,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Clase controladora para la interfaz de usuario del juego.
@@ -48,6 +52,10 @@ public class SudokuController {
     private Label labelMensaje;
 
     private JuegoSudoku sudoku;
+
+    private int ayudasUsadas = 0;
+
+    private static final int MAX_AYUDAS = 5;
 
     /**
      * Matriz que almacena la solución del juego del tablero actual.
@@ -114,15 +122,15 @@ public class SudokuController {
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             sudoku = new JuegoSudoku();
-            sudoku.sudokuResuelto();
-            juegoResuelto = sudoku.getJuegoResuelto();
-            tableroActualJuego = sudoku.getTableroInicial();
+            tableroActualJuego = sudoku.generarNuevoTablero(); // Genera tablero jugable con solución
+            juegoResuelto = sudoku.getJuegoResuelto(); // Guarda la solución correcta
 
             configuracionTablero(tableroActualJuego);
 
             // Desactivar botón de Jugar y activar el de Reiniciar/Ayuda
             botonIniciarJuego.setDisable(true);
             botonReiniciarJuego.setDisable(false);
+            ayudasUsadas = 0;
             botonAyuda.setDisable(false);
 
             if (labelMensaje != null) {
@@ -150,6 +158,7 @@ public class SudokuController {
 
             limpiarTablero(); // Tablero vacío
             seleccionarEstadoBotones(); // Activa Jugar, desactiva Reiniciar/Ayuda
+            ayudasUsadas = 0;
 
             if (labelMensaje != null) {
                 labelMensaje.setText("Tablero vacío. Haz clic en JUGAR para empezar.");
@@ -164,42 +173,81 @@ public class SudokuController {
 
     @FXML
     private void pedirAyuda() {
-        boolean sugerenciaEncontrada = false;
+        if (juegoResuelto == null) {
+            if (labelMensaje != null)
+                labelMensaje.setText("No hay juego cargado. Presiona JUGAR primero.");
+            return;
+        }
+
+        // Verificar si alcanzó el máximo de ayudas
+        if (ayudasUsadas >= MAX_AYUDAS) {
+            if (labelMensaje != null) {
+                labelMensaje.setStyle("-fx-text-fill: red");
+                labelMensaje.setText("🚫 Límite de ayudas alcanzado (" + MAX_AYUDAS + "). ¡Intenta resolverlo!");
+            }
+            botonAyuda.setDisable(true);
+            return;
+        }
+
+        // --- Recolectar todas las celdas vacías y editables ---
+        List<TextField> celdasDisponibles = new ArrayList<>();
 
         for (Node node : gridTablero.getChildren()) {
             if (node instanceof TextField) {
                 TextField celda = (TextField) node;
-
                 Integer f = GridPane.getRowIndex(node);
                 Integer c = GridPane.getColumnIndex(celda);
                 int fila = (f != null) ? f : 0;
                 int columna = (c != null) ? c : 0;
 
-                // Buscar la primera celda vacía y editable
                 if (celda.isEditable() && tableroActualJuego[fila][columna] == 0) {
-
-                    // Llama al Modelo para la sugerencia
-                    Optional<Integer> sugerencia = sudoku.sugerirNumero(tableroActualJuego, fila, columna);
-
-                    if (sugerencia.isPresent()) {
-                        int num = sugerencia.get();
-
-                        // Aplicar la sugerencia en la Vista
-                        celda.setText(String.valueOf(num));
-                        celda.setStyle(ESTILO_SUGERENCIA);
-
-                        if (labelMensaje != null) labelMensaje.setText("💡 ¡Pista! Se ha sugerido un número válido.");
-                        sugerenciaEncontrada = true;
-
-                        break;
-                    }
+                    celdasDisponibles.add(celda);
                 }
             }
         }
-        if (!sugerenciaEncontrada && labelMensaje != null) {
-            labelMensaje.setText("El tablero está lleno o no hay movimientos válidos para sugerir.");
+
+        if (celdasDisponibles.isEmpty()) {
+            if (labelMensaje != null) {
+                labelMensaje.setStyle("-fx-text-fill: green");
+                labelMensaje.setText("El tablero está lleno o no hay movimientos válidos para sugerir.");
+            }
+            return;
+        }
+
+        // --- Escoger una celda aleatoria ---
+        Random random = new Random();
+        TextField celdaSeleccionada = celdasDisponibles.get(random.nextInt(celdasDisponibles.size()));
+
+        Integer f = GridPane.getRowIndex(celdaSeleccionada);
+        Integer c = GridPane.getColumnIndex(celdaSeleccionada);
+        int fila = (f != null) ? f : 0;
+        int columna = (c != null) ? c : 0;
+
+        // --- Colocar el número correcto según la solución ---
+        int numSugerido = juegoResuelto[fila][columna];
+        celdaSeleccionada.setText(String.valueOf(numSugerido));
+        celdaSeleccionada.setStyle(ESTILO_SUGERENCIA);
+        celdaSeleccionada.setEditable(false);
+
+        tableroActualJuego[fila][columna] = numSugerido;
+        ayudasUsadas++;
+
+        if (labelMensaje != null) {
+            labelMensaje.setStyle("-fx-text-fill: green");
+            labelMensaje.setText("💡 Pista #" + ayudasUsadas + " aplicada (máx " + MAX_AYUDAS + ").");
+        }
+
+        // Si llega al máximo, desactivar botón
+        if (ayudasUsadas >= MAX_AYUDAS) {
+            botonAyuda.setDisable(true);
+            if (labelMensaje != null) {
+                labelMensaje.setStyle("-fx-text-fill: red");
+                labelMensaje.setText("🚫 Límite de ayudas alcanzado. ¡Resuelve el resto tú!");
+            }
         }
     }
+
+    private boolean juegoTerminado = false;
 
     /**
      * Configura el estado visual del GridPane en la interfaz.
@@ -208,6 +256,9 @@ public class SudokuController {
      * @param tableroDeInicio //Matriz que contiene los números iniciales.
      */
     private void configuracionTablero(int[][] tableroDeInicio) {
+
+        juegoTerminado = false;
+
         for (Node node : gridTablero.getChildren()) {
             if (node instanceof TextField) {
                 TextField celda = (TextField) node;
@@ -232,58 +283,63 @@ public class SudokuController {
                     celda.setEditable(true);
 
                     // Añadir el Change Listener para la validación en tiempo real
-                    celda.textProperty().addListener((observable, oldValue, newValue) -> {
-                        // Restricción de entrada (solo 1-6 o vacío)
-                        if (!newValue.matches("[1-6]?")) {
-                            celda.setText(oldValue);
-                            if (labelMensaje != null) {
-                                labelMensaje.setStyle("-fx-text-fill: red");
-                                labelMensaje.setText("❌ Error: Solo se permiten números del 1 al 6.");
-                                return;
-                            }
-                        }
+                    if (celda.getProperties().get("listenerAgregado") == null) {
 
-                        // Actualizar el estado del modelo local
-                        int numIngresado = newValue.isEmpty() ? 0 : Integer.parseInt(newValue);
-                        tableroActualJuego[fila][columna] = numIngresado;
-
-                        if (numIngresado != 0) {
-                            // Llamar a la validación de reglas del Sudoku
-                            if (!sudoku.esMovimientoValido(tableroActualJuego, fila, columna, numIngresado)) {
-                                // Movimiento que viola reglas
-                                celda.setStyle(ESTILO_ERROR);
+                        celda.textProperty().addListener((observable, oldValue, newValue) -> {
+                            // Restricción de entrada (solo 1-6 o vacío)
+                            if (!newValue.matches("[1-6]?")) {
+                                celda.setText(oldValue);
                                 if (labelMensaje != null) {
                                     labelMensaje.setStyle("-fx-text-fill: red");
-                                    labelMensaje.setText("❌ Error: El número " + numIngresado + " está repetido.");
+                                    labelMensaje.setText("❌ Error: Solo se permiten números del 1 al 6.");
                                 }
-                            } else {
-                                // Movimiento válido
-                                celda.setStyle(ESTILO_DEFAULT);
-                                if (labelMensaje != null) {
-                                    labelMensaje.setStyle("-fx-text-fill: green");
-                                    labelMensaje.setText("✅ Número válido para esta posición. ¡Sigue así!");
-                                }
+                                return;
+                            }
 
-                                // Verificar si el juego terminó
-                                if (verificarJuego()) {
-                                    Alert finJuego = new Alert(Alert.AlertType.INFORMATION);
-                                    finJuego.setTitle("¡Juego Terminado!");
-                                    finJuego.setHeaderText(null);
-                                    finJuego.setContentText("🎉 ¡Felicidades! Has resuelto el Sudoku correctamente.");
-                                    finJuego.showAndWait();
+                            // Actualizar el estado del modelo local
+                            int numIngresado = newValue.isEmpty() ? 0 : Integer.parseInt(newValue);
+                            tableroActualJuego[fila][columna] = numIngresado;
+
+                            if (numIngresado != 0) {
+                                // Llamar a la validación de reglas del Sudoku
+                                if (!sudoku.esMovimientoValido(tableroActualJuego, fila, columna, numIngresado)) {
+                                    celda.setStyle(ESTILO_ERROR);
                                     if (labelMensaje != null) {
-                                        labelMensaje.setText("🎉 ¡Sudoku Resuelto!");
+                                        labelMensaje.setStyle("-fx-text-fill: red");
+                                        labelMensaje.setText("❌ Error: El número " + numIngresado + " está repetido.");
+                                    }
+                                } else {
+                                    celda.setStyle(ESTILO_DEFAULT);
+                                    if (labelMensaje != null) {
+                                        labelMensaje.setStyle("-fx-text-fill: green");
+                                        labelMensaje.setText("✅ Número válido. ¡Sigue así!");
+                                    }
+
+                                    // Verificar si el juego terminó (solo una vez)
+                                    if (!juegoTerminado && verificarJuego()) {
+                                        juegoTerminado = true;
+                                        Alert finJuego = new Alert(Alert.AlertType.INFORMATION);
+                                        finJuego.setTitle("¡Juego Terminado!");
+                                        finJuego.setHeaderText(null);
+                                        finJuego.setContentText("🎉 ¡Felicidades! Has resuelto el Sudoku correctamente.");
+                                        finJuego.showAndWait();
+                                        if (labelMensaje != null) {
+                                            labelMensaje.setText("🎉 ¡Sudoku Resuelto!");
+                                        }
                                     }
                                 }
+                            } else {
+                                // El campo se vació (borrado)
+                                celda.setStyle(ESTILO_DEFAULT);
+                                if (labelMensaje != null) {
+                                    labelMensaje.setText("Sigue jugando...");
+                                }
                             }
-                        } else {
-                            // El campo se vació (borrado)
-                            celda.setStyle(ESTILO_DEFAULT);
-                            if (labelMensaje != null) {
-                                labelMensaje.setText("Sigue jugando...");
-                            }
-                        }
-                    });
+                        });
+
+                        // 🔹 Marcar que ya se agregó el listener
+                        celda.getProperties().put("listenerAgregado", true);
+                    }
                 }
             }
         }
