@@ -3,7 +3,6 @@ package com.example.gamesudoku;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -28,7 +27,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/example/gamesudoku/Sudoku.fxml"));
+                getClass().getResource("/com/example/gamesudoku/sudoku-view.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setTitle("Juego Sudoku 6X6");

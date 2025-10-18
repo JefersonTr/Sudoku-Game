@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -14,7 +15,8 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="510.0" prefWidth="531.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gamesudoku.Controller.SudokuController">
+<BorderPane prefHeight="510.0" prefWidth="531.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gamesudoku.Controller.SudokuController">
+    
    <center>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="326.0">
          <children>
@@ -92,19 +94,7 @@
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black black transparent transparent;" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent black;" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent transparent;" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black black transparent transparent;" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="105.0" style="-fx-border-color: black black transparent transparent;" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
@@ -117,6 +107,18 @@
                         <Font size="14.0" />
                      </font></TextField>
                   <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: transparent black black transparent;" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent black;" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent transparent;" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black black transparent transparent;" GridPane.columnIndex="5" GridPane.rowIndex="2">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
@@ -144,18 +146,6 @@
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent black;" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent transparent;" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
-                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black black transparent transparent;" GridPane.columnIndex="5" GridPane.rowIndex="4">
-                     <font>
-                        <Font size="14.0" />
-                     </font></TextField>
                   <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: transparent transparent black black;" GridPane.rowIndex="5">
                      <font>
                         <Font size="14.0" />
@@ -165,6 +155,18 @@
                         <Font size="14.0" />
                      </font></TextField>
                   <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: transparent black black transparent;" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent black;" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black transparent transparent transparent;" GridPane.columnIndex="4" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField alignment="CENTER" minHeight="62.0" prefWidth="55.0" style="-fx-border-color: black black transparent transparent;" GridPane.columnIndex="5" GridPane.rowIndex="4">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
@@ -181,29 +183,35 @@
                         <Font size="14.0" />
                      </font></TextField>
                </children>
+               <VBox.margin>
+                  <Insets left="25.0" />
+               </VBox.margin>
             </GridPane>
          </children>
       </VBox>
    </center>
    <right>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="188.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER_RIGHT" prefHeight="400.0" prefWidth="188.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="botonIniciarJuego" mnemonicParsing="false" onAction="#iniciarNuevoJuego" text="NUEVO JUEGO">
+            <Button fx:id="botonIniciarJuego" mnemonicParsing="false" onAction="#iniciarNuevoJuego" prefWidth="110.0" text="JUGAR">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Comic Sans MS Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="botonReiniciarJuego" mnemonicParsing="false" onAction="#botonReniciarJuego" text="REINICIAR JUEGO">
+            <Button fx:id="botonReiniciarJuego" mnemonicParsing="false" onAction="#reiniciarJuego" prefWidth="110.0" text="REINICIAR">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Comic Sans MS Bold" size="15.0" />
                </font>
             </Button>
-            <Button fx:id="botonAyuda" mnemonicParsing="false" prefHeight="24.0" prefWidth="111.0" text="AYUDA" textFill="#080707">
+            <Button fx:id="botonAyuda" mnemonicParsing="false" onAction="#pedirAyuda" prefHeight="0.0" prefWidth="110.0" text="AYUDA" textFill="#080707">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Comic Sans MS Bold" size="15.0" />
                </font>
             </Button>
          </children>
+         <padding>
+            <Insets right="25.0" />
+         </padding>
       </VBox>
    </right>
    <top>
@@ -233,4 +241,14 @@
          </children>
       </HBox>
    </top>
+   <bottom>
+      <Label fx:id="labelMensaje" text="Label" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="15.0" />
+         </padding>
+         <font>
+            <Font name="Comic Sans MS" size="16.0" />
+         </font>
+      </Label>
+   </bottom>
 </BorderPane>

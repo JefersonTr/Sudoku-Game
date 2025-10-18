@@ -150,8 +150,13 @@ public class JuegoSudoku {
     public int[][] tableroInicial(){
         int[][] juegoinicial = new int[SIZE][SIZE];
 
-        for (int i = 0; i < SIZE; i++) {
-            System.arraycopy(juegoResuelto[i], 0, juegoinicial[i], 0, SIZE);
+    public boolean esMovimientoValido(int[][] tableroActual, int fila, int colum, int num) {
+
+        // Verificar Fila (ignorando la celda actual)
+        for (int c = 0; c < SIZE; c++) {
+            if (c != colum && tableroActual[fila][c] == num) {
+                return false;
+            }
         }
         //itera sobre cada sub bloque
         for (int bloqueFila = 0; bloqueFila < SIZE / SUB_FILA; bloqueFila++) {
@@ -164,8 +169,31 @@ public class JuegoSudoku {
                 for (int f = 0; f < SUB_FILA; f++) {
                     for (int c = 0; c < SUB_Columna; c++) {
                         bloqueceldas.add(new int[]{filaInicial + f, columInicial + c});
+
+        // Verificar Columna (ignorando la celda actual)
+        for (int f = 0; f < SIZE; f++) {
+            if (f != fila && tableroActual[f][colum] == num) {
+                return false;
+            }
+        }
+
+        // Verificar Subcuadrícula (Bloque 2x3, ignorando la celda actual)
+        int filaInicial = fila - fila % SUB_FILA;
+        int columInicial = colum - colum % SUB_Columna;
+        for (int f = 0; f < SUB_FILA; f++) {
+            for (int c = 0; c < SUB_Columna; c++) {
+                int currentFila = filaInicial + f;
+                int currentColum = columInicial + c;
+
+                if (currentFila != fila || currentColum != colum) {
+                    if (tableroActual[currentFila][currentColum] == num) {
+                        return false;
                     }
                 }
+            }
+        }
+        return true;
+    }
 
                 java.util.Collections.shuffle(bloqueceldas);
                 //oculta los números dejando ver solo 2 por bloque 2x3
@@ -174,9 +202,36 @@ public class JuegoSudoku {
                     int c = bloqueceldas.get(i)[1];
                     juegoinicial[f][c] = 0;
                 }
+    public Optional<Integer> sugerirNumero(int[][] tableroActual, int fila, int colum) {
+        int[] numbers = {1, 2, 3, 4, 5, 6};
+
+        mezclarLista(numbers);
+
+        // Guardar el valor actual (debería ser 0)
+        int valorOriginal = tableroActual[fila][colum];
+
+        for (int num : numbers) {
+            // Se simula la colocación del número para poder usar la validación
+            tableroActual[fila][colum] = num;
+
+            //Validar
+            if (esMovimientoValido(tableroActual, fila, colum, num)) {
+                tableroActual[fila][colum] = valorOriginal; // Restaurar la celda antes de salir
+                return Optional.of(num);
             }
+            tableroActual[fila][colum] = valorOriginal; // Restaurar la celda antes de probar el siguiente
         }
-        return juegoinicial;
+
+        return Optional.empty();
+    }
+
+    private void mezclarLista(int[] lista) {
+        for (int i = lista.length - 1; i > 0; i--) {
+            int index = random.nextInt(i + 1);
+            int temp = lista[index];
+            lista[index] = lista[i];
+            lista[i] = temp;
+        }
     }
 
     /**
@@ -198,6 +253,8 @@ public class JuegoSudoku {
 
     public int[][] getTableroInicial(){
     int[][] juegoinicial = getJuegoResuelto(); // Comienza con una copia del tablero resuelto
+    // Comienza con el tablero resuelto
+    int[][] juegoinicial = getJuegoResuelto();
 
         //itera sobre cada sub bloque 2x3
         for (int bloqueFila = 0; bloqueFila < SIZE / SUB_FILA; bloqueFila++) {
