@@ -5,8 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+
+import java.util.Optional;
 
 /**
  * Clase controladora para la interfaz de usuario del juego.
@@ -59,19 +62,21 @@ public class SudokuController {
      */
     @FXML
     private void iniciarNuevoJuego(){
-        //inicia un nuevo juego y genera la solución.
+
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmación");
+        confirmacion.setHeaderText("¡Estas apunto de empezar!");
+        confirmacion.setContentText("¡Presiona ACEPTAR si deseas iniciar!.");
+
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK){
         sudoku = new JuegoSudoku();
         sudoku.sudokuResuelto();
         juegoResuelto = sudoku.getJuegoResuelto();
         int[][] tableroInicial = sudoku.getTableroInicial();
-        // alerta informativa de inicio.
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("¡Estas a punto de empezar!");
-        alerta.setHeaderText(null);
-        alerta.setContentText("¡Si desea iniciar da clic en aceptar.");
-        alerta.showAndWait();
         setupGridPane(tableroInicial);
 
+        }
     }
 
     /**
@@ -114,10 +119,13 @@ public class SudokuController {
                     //genera las celdas vacía y editable
                     celda.setText("");
                     celda.setEditable(true);
+
+                    celda.textProperty().addListener((observable, oldValue, newValue) -> {
+                        comprobarNumero(celda, newValue);
+                    });
                 }
             }
         }
-
     }
 
     /**
@@ -126,9 +134,16 @@ public class SudokuController {
      * @param nuevoNumero // lo que ingresa el usuario
      */
     private void comprobarNumero(TextField celda, String nuevoNumero){
-        if (!nuevoNumero.matches("[1-6]?")){ //expresión que permite solo números del 1 al 6
-            celda.setText(nuevoNumero.replaceAll("[^1-6]","")); //elimina lo que no es numero ni 1-6
+        // Elimina cualquier carácter que no sea 1-6
+        String filtrado = nuevoNumero.replaceAll("[^1-6]", "");
+
+        // No permite más de 1 carácter, corta al primero
+        if (filtrado.length() > 1) {
+            filtrado = filtrado.substring(0, 1);
         }
+
+        // Actualiza el contenido de la celda
+        celda.setText(filtrado);
     }
 
     /**
