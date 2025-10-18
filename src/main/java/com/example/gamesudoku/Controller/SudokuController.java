@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import java.util.Optional;
 
-import java.util.Optional;
-
 /**
  * Clase controladora para la interfaz de usuario del juego.
  * Gestiona los eventos del usuario, el inicio del juego y el reinicio,
@@ -25,8 +23,6 @@ import java.util.Optional;
  */
 public class SudokuController {
     private static final int SIZE = 6; //define el tamaño del tablero 6x6
-
-    private static final int SIZE = 6;
     //Estilos
     private static final String ESTILO_DEFAULT = "";
     private static final String ESTILO_ERROR = "-fx-background-color: red; -fx-text-fill: black; -fx-border-width: 1; -fx-border-color: #A9A9A9";
@@ -107,7 +103,7 @@ public class SudokuController {
      * y configura la interfaz de usuario con el tablero inicial.
      */
     @FXML
-    private void iniciarNuevoJuego(){
+    private void iniciarNuevoJuego() {
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Confirmación");
@@ -115,12 +111,23 @@ public class SudokuController {
         confirmacion.setContentText("¡Presiona ACEPTAR si deseas iniciar!.");
 
         Optional<ButtonType> resultado = confirmacion.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK){
-        sudoku = new JuegoSudoku();
-        sudoku.sudokuResuelto();
-        juegoResuelto = sudoku.getJuegoResuelto();
-        int[][] tableroInicial = sudoku.getTableroInicial();
-        setupGridPane(tableroInicial);
+
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            sudoku = new JuegoSudoku();
+            sudoku.sudokuResuelto();
+            juegoResuelto = sudoku.getJuegoResuelto();
+            tableroActualJuego = sudoku.getTableroInicial();
+
+            configuracionTablero(tableroActualJuego);
+
+            // Desactivar botón de Jugar y activar el de Reiniciar/Ayuda
+            botonIniciarJuego.setDisable(true);
+            botonReiniciarJuego.setDisable(false);
+            botonAyuda.setDisable(false);
+
+            if (labelMensaje != null) {
+                labelMensaje.setText("¡A jugar! Ingresa un número (1-6).");
+            }
 
         }
     }
@@ -129,38 +136,7 @@ public class SudokuController {
      * Reinicia el juego actual, generando un nuevo tablero y solución
      */
     @FXML
-    private void botonReniciarJuego (){
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("¡Estas a punto de empezar!");
-        alerta.setHeaderText(null);
-        alerta.setContentText("¡Si desea iniciar da clic en aceptar.");
-        alerta.showAndWait();
-
-        sudoku = new JuegoSudoku();
-        sudoku.sudokuResuelto();
-        juegoResuelto = sudoku.getJuegoResuelto();
-        tableroActualJuego = sudoku.getTableroInicial();
-
-        configuracionTablero(tableroActualJuego);
-
-        // Desactivar botón de Jugar y activar el de Reiniciar/Ayuda
-        botonIniciarJuego.setDisable(true);
-        botonReiniciarJuego.setDisable(false);
-        botonAyuda.setDisable(false);
-
-        if (labelMensaje != null) {
-            labelMensaje.setText("¡A jugar! Ingresa un número (1-6).");
-        }
-    }
-
-    /**
-     * Configura el estado visual del GridPane en la interfaz.
-     * Establece los números iniciales del juego y qué celdas están habilitadas para escribir
-     * @param tableroDeInicio //Matriz que contiene los números iniciales.
-     */
-    private void setupGridPane(int[][] tableroDeInicio) {
-    @FXML
-    private void reiniciarJuego (){
+    private void reiniciarJuego() {
 
         Alert alertaReinicio = new Alert(Alert.AlertType.CONFIRMATION);
         alertaReinicio.setTitle("Confirmación de Reinicio");
@@ -225,12 +201,17 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Configura el estado visual del GridPane en la interfaz.
+     * Establece los números iniciales del juego y qué celdas están habilitadas para escribir
+     *
+     * @param tableroDeInicio //Matriz que contiene los números iniciales.
+     */
     private void configuracionTablero(int[][] tableroDeInicio) {
         for (Node node : gridTablero.getChildren()) {
             if (node instanceof TextField) {
                 TextField celda = (TextField) node;
 
-                //obtiene las coordenadas de las celdas
                 Integer f = GridPane.getRowIndex(node);
                 Integer c = GridPane.getColumnIndex(celda);
 
@@ -242,36 +223,14 @@ public class SudokuController {
                 // Limpiar estilos antes de reasignar
                 celda.setStyle(ESTILO_DEFAULT);
 
-                if (valor != 0){
-                    //fija el número inicial no editable
+                if (valor != 0) {
                     celda.setText(String.valueOf(valor));
                     celda.setEditable(false);
                     celda.setStyle(ESTILO_FIJO);
-                }else{
-                    //genera las celdas vacía y editable
+                } else {
                     celda.setText("");
                     celda.setEditable(true);
 
-                    celda.textProperty().addListener((observable, oldValue, newValue) -> {
-                        comprobarNumero(celda, newValue);
-                    });
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     * @param celda // es el textField que se está modificando
-     * @param nuevoNumero // lo que ingresa el usuario
-     */
-    private void comprobarNumero(TextField celda, String nuevoNumero){
-        // Elimina cualquier carácter que no sea 1-6
-        String filtrado = nuevoNumero.replaceAll("[^1-6]", "");
-
-        // No permite más de 1 carácter, corta al primero
-        if (filtrado.length() > 1) {
-            filtrado = filtrado.substring(0, 1);
                     // Añadir el Change Listener para la validación en tiempo real
                     celda.textProperty().addListener((observable, oldValue, newValue) -> {
                         // Restricción de entrada (solo 1-6 o vacío)
@@ -280,7 +239,7 @@ public class SudokuController {
                             if (labelMensaje != null) {
                                 labelMensaje.setStyle("-fx-text-fill: red");
                                 labelMensaje.setText("❌ Error: Solo se permiten números del 1 al 6.");
-                            return;
+                                return;
                             }
                         }
 
@@ -328,19 +287,18 @@ public class SudokuController {
                 }
             }
         }
-
-        // Actualiza el contenido de la celda
-        celda.setText(filtrado);
     }
+
+
 
     /**
      * Verifica si el estado actual del tablero coincide con la solución.
+     *
      * @return boolean true si el tablero está completo y los numero coinciden con la solución, false en caso contrario
      */
-    private boolean VerificarJuego(){
-    private boolean verificarJuego(){
-        for (Node node : gridTablero.getChildren()){
-            if (node instanceof TextField){
+    private boolean verificarJuego() {
+        for (Node node : gridTablero.getChildren()) {
+            if (node instanceof TextField) {
                 TextField celda = (TextField) node;
                 Integer f = GridPane.getRowIndex(node);
                 Integer c = GridPane.getColumnIndex(node);
@@ -349,15 +307,12 @@ public class SudokuController {
                 int columna = (c != null ? c : 0);
 
                 String text = celda.getText();
-                // verifica si la celda está vacía (no completo)
-                // verifica si el numero no coincide con la solución
-                if (text.isEmpty() || Integer.parseInt(text) != juegoResuelto[fila][columna]){
                 // erifica que no esté vacío
-                if (text.isEmpty()){
+                if (text.isEmpty()) {
                     return false;
                 }
                 // Verifica que sea la solución final correcta (coincida con juegoResuelto)
-                if (Integer.parseInt(text) != juegoResuelto[fila][columna]){
+                if (Integer.parseInt(text) != juegoResuelto[fila][columna]) {
                     return false;
                 }
             }
@@ -365,4 +320,3 @@ public class SudokuController {
         return true;
     }
 }
-
