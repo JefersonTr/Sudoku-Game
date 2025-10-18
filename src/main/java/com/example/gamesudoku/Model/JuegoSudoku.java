@@ -128,28 +128,6 @@ public class JuegoSudoku {
         return true;
     }
 
-    /**
-     * Mezcla aleatoriamente los elementos de la lista usando Fisher-Yates.
-     *
-     * @param lista el Array de enteros a mezclar
-     */
-    private void mezclarLista(int[] lista) {
-        for (int i = lista.length - 1; i > 0; i--) {
-            int index = random.nextInt(i + 1);
-            int temp = lista[index];
-            lista[index] = lista[i];
-            lista[i] = temp;
-        }
-    }
-
-    /**
-     * Crea un tablero inicial de sudoku con 2 numero por cada sub bloque 2x3.
-     *
-     * @return int[][] Una matriz 6x6 con valores iniciales.
-     */
-    public int[][] tableroInicial(){
-        int[][] juegoinicial = new int[SIZE][SIZE];
-
     public boolean esMovimientoValido(int[][] tableroActual, int fila, int colum, int num) {
 
         // Verificar Fila (ignorando la celda actual)
@@ -158,17 +136,6 @@ public class JuegoSudoku {
                 return false;
             }
         }
-        //itera sobre cada sub bloque
-        for (int bloqueFila = 0; bloqueFila < SIZE / SUB_FILA; bloqueFila++) {
-            for (int bloquecolum = 0; bloquecolum < SIZE / SUB_Columna; bloquecolum++) {
-                int filaInicial = bloqueFila * SUB_FILA;
-                int columInicial = bloquecolum * SUB_Columna;
-
-                java.util.List<int[]> bloqueceldas = new java.util.ArrayList<>();
-                //llena la lista con toda las coordenadas del bloque
-                for (int f = 0; f < SUB_FILA; f++) {
-                    for (int c = 0; c < SUB_Columna; c++) {
-                        bloqueceldas.add(new int[]{filaInicial + f, columInicial + c});
 
         // Verificar Columna (ignorando la celda actual)
         for (int f = 0; f < SIZE; f++) {
@@ -195,13 +162,6 @@ public class JuegoSudoku {
         return true;
     }
 
-                java.util.Collections.shuffle(bloqueceldas);
-                //oculta los números dejando ver solo 2 por bloque 2x3
-                for (int i = 2; i < bloqueceldas.size(); i++) {
-                    int f = bloqueceldas.get(i)[0];
-                    int c = bloqueceldas.get(i)[1];
-                    juegoinicial[f][c] = 0;
-                }
     public Optional<Integer> sugerirNumero(int[][] tableroActual, int fila, int colum) {
         int[] numbers = {1, 2, 3, 4, 5, 6};
 
@@ -225,6 +185,11 @@ public class JuegoSudoku {
         return Optional.empty();
     }
 
+    /**
+     * Mezcla aleatoriamente los elementos de la lista usando Fisher-Yates.
+     *
+     * @param lista el Array de enteros a mezclar
+     */
     private void mezclarLista(int[] lista) {
         for (int i = lista.length - 1; i > 0; i--) {
             int index = random.nextInt(i + 1);
@@ -253,8 +218,6 @@ public class JuegoSudoku {
 
     public int[][] getTableroInicial(){
     int[][] juegoinicial = getJuegoResuelto(); // Comienza con una copia del tablero resuelto
-    // Comienza con el tablero resuelto
-    int[][] juegoinicial = getJuegoResuelto();
 
         //itera sobre cada sub bloque 2x3
         for (int bloqueFila = 0; bloqueFila < SIZE / SUB_FILA; bloqueFila++) {
