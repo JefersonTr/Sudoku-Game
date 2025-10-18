@@ -216,33 +216,125 @@ public class JuegoSudoku {
      * @return
      */
 
-    public int[][] getTableroInicial(){
-    int[][] juegoinicial = getJuegoResuelto(); // Comienza con una copia del tablero resuelto
+    public int[][] getTableroInicial() {
+        // Intentos máximos para encontrar una configuración con solución única
+        final int MAX_ATTEMPTS = 2000;
 
-        //itera sobre cada sub bloque 2x3
+        // Obtenemos la solución completa (copia)
+        // getJuegoResuelto() ya te devuelve una copia del juegoResuelto
+        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+            int[][] juegoinicial = getJuegoResuelto();
+
+            // Para cada bloque 2x3, barajamos sus celdas y mantenemos solo 2
+            for (int bloqueFila = 0; bloqueFila < SIZE / SUB_FILA; bloqueFila++) {
+                for (int bloquecolum = 0; bloquecolum < SIZE / SUB_Columna; bloquecolum++) {
+                    int filaInicial = bloqueFila * SUB_FILA;
+                    int columInicial = bloquecolum * SUB_Columna;
+
+                    List<int[]> bloqueceldas = new ArrayList<>();
+                    for (int f = 0; f < SUB_FILA; f++) {
+                        for (int c = 0; c < SUB_Columna; c++) {
+                            bloqueceldas.add(new int[]{filaInicial + f, columInicial + c});
+                        }
+                    }
+
+                    // Mezclar usando tu Random existente
+                    Collections.shuffle(bloqueceldas, random);
+
+                    // Mantener solo las dos primeras posiciones del bloque; el resto se pone en 0
+                    for (int i = 2; i < bloqueceldas.size(); i++) {
+                        int f = bloqueceldas.get(i)[0];
+                        int c = bloqueceldas.get(i)[1];
+                        juegoinicial[f][c] = 0;
+                    }
+                }
+            }
+
+            // Comprobar unicidad de la solución para la configuración completa
+            // (tieneUnicaSolucion ya existe en tu clase y recibe un tablero)
+            if (tieneUnicaSolucion(juegoinicial)) {
+                return juegoinicial; // perfecto: cumple 2 por bloque y solución única
+            }
+
+            // Si no es única, volvemos a intentar con otra baraja (sigue el loop)
+        }
+
+        // Si agotamos intentos, como fallback devolvemos la última configuración generada
+        // (aunque no tenga unicidad garantizada). Si prefieres, puedes lanzar excepción.
+        // Aquí devolvemos un tablero con 2 por bloque (último intento).
+        int[][] fallback = getJuegoResuelto();
         for (int bloqueFila = 0; bloqueFila < SIZE / SUB_FILA; bloqueFila++) {
             for (int bloquecolum = 0; bloquecolum < SIZE / SUB_Columna; bloquecolum++) {
                 int filaInicial = bloqueFila * SUB_FILA;
                 int columInicial = bloquecolum * SUB_Columna;
 
-                java.util.List<int[]> bloqueceldas = new java.util.ArrayList<>();
-                //llena la lista con las coordenadas del bloque
+                List<int[]> bloqueceldas = new ArrayList<>();
                 for (int f = 0; f < SUB_FILA; f++) {
                     for (int c = 0; c < SUB_Columna; c++) {
                         bloqueceldas.add(new int[]{filaInicial + f, columInicial + c});
                     }
                 }
-
-                java.util.Collections.shuffle(bloqueceldas);
-                //oculta las celdas y deja solo 2 por cada sub bloque 2x3
+                Collections.shuffle(bloqueceldas, random);
                 for (int i = 2; i < bloqueceldas.size(); i++) {
                     int f = bloqueceldas.get(i)[0];
                     int c = bloqueceldas.get(i)[1];
-                    juegoinicial[f][c] = 0;
+                    fallback[f][c] = 0;
                 }
             }
         }
-        return juegoinicial;
+        return fallback;
+    }
+
+    private boolean tieneUnicaSolucion(int[][] tablero) {
+        return contarSoluciones(tablero, 0, 0, 0) == 1;
+    }
+
+    private int contarSoluciones(int[][] tablero, int fila, int colum, int contador) {
+        if (contador > 1) return contador; // más de una solución → salir
+        if (fila == SIZE) return contador + 1;
+
+        int nextFila = (colum == SIZE - 1) ? fila + 1 : fila;
+        int nextColum = (colum == SIZE - 1) ? 0 : colum + 1;
+
+        if (tablero[fila][colum] != 0) {
+            return contarSoluciones(tablero, nextFila, nextColum, contador);
+        }
+
+        for (int num = 1; num <= SIZE; num++) {
+            if (esValidoEnTablero(tablero, fila, colum, num)) {
+                tablero[fila][colum] = num;
+                contador = contarSoluciones(tablero, nextFila, nextColum, contador);
+                tablero[fila][colum] = 0;
+            }
+        }
+        return contador;
+    }
+
+    private boolean esValidoEnTablero(int[][] tablero, int fila, int colum, int num) {
+        for (int c = 0; c < SIZE; c++) {
+            if (tablero[fila][c] == num) return false;
+        }
+        for (int f = 0; f < SIZE; f++) {
+            if (tablero[f][colum] == num) return false;
+        }
+        int filaInicial = fila - fila % SUB_FILA;
+        int columInicial = colum - colum % SUB_Columna;
+        for (int f = 0; f < SUB_FILA; f++) {
+            for (int c = 0; c < SUB_Columna; c++) {
+                if (tablero[filaInicial + f][columInicial + c] == num)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Genera un nuevo tablero resuelto y retorna un tablero inicial con celdas ocultas.
+     * Se usa para garantizar que cada juego tiene solución válida.
+     */
+    public int[][] generarNuevoTablero() {
+        sudokuResuelto(); // Genera un nuevo tablero resuelto con backtracking
+        return getTableroInicial(); // Crea el tablero inicial con espacios vacíos
     }
 }
 
