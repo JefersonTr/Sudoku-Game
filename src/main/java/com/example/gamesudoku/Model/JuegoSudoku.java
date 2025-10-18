@@ -128,6 +128,15 @@ public class JuegoSudoku {
         return true;
     }
 
+    /**
+     * Verifica si el número colocado cumple las reglas del sudoku.
+     *
+     * @param tableroActual el estado actual del tablero.
+     * @param fila la fila que se va a validar.
+     * @param colum la columna que se va a validar.
+     * @param num el numero ingresado.
+     * @return
+     */
     public boolean esMovimientoValido(int[][] tableroActual, int fila, int colum, int num) {
 
         // Verificar Fila (ignorando la celda actual)
@@ -162,6 +171,13 @@ public class JuegoSudoku {
         return true;
     }
 
+    /**
+     * Da un número número válido para colocar en el tablero actual.
+     * @param tableroActual el tablero actual.
+     * @param fila la celda de la fila vacia
+     * @param colum la celda de la columna vacia.
+     * @return Un número válido dentro del tablero resuelto o vacío si no hay sugerencia.
+     */
     public Optional<Integer> sugerirNumero(int[][] tableroActual, int fila, int colum) {
         int[] numbers = {1, 2, 3, 4, 5, 6};
 
@@ -212,8 +228,8 @@ public class JuegoSudoku {
     }
 
     /**
-     *
-     * @return
+     * Genera una serie de tableros posibles para tomar uno que tenga solución y mostraslo.
+     * @return Un tablero inicial válido.
      */
 
     public int[][] getTableroInicial() {
@@ -285,9 +301,24 @@ public class JuegoSudoku {
         return fallback;
     }
 
+    /**
+     * Verifica si un tablero tiene un única solución
+     * @param tablero
+     * @return true si tiene una unica solución o false si no tiene o mas de una
+     */
     private boolean tieneUnicaSolucion(int[][] tablero) {
         return contarSoluciones(tablero, 0, 0, 0) == 1;
     }
+
+    /**
+     * Cuenta cuántas soluciones válidas existen para un tablero Sudoku 6x6 dado.
+     *
+     * @param tablero El tablero actual a evaluar.
+     * @param fila Fila actual en el recorrido.
+     * @param colum Columna actual en el recorrido.
+     * @param contador Contador actual de soluciones encontradas.
+     * @return Número total de soluciones encontradas (máximo 2, ya que se corta si hay más de una)
+     */
 
     private int contarSoluciones(int[][] tablero, int fila, int colum, int contador) {
         if (contador > 1) return contador; // más de una solución → salir
@@ -309,7 +340,16 @@ public class JuegoSudoku {
         }
         return contador;
     }
-
+    /**
+     * Válida si un número puede colocarse en una celda específica de un tablero dado
+     * respetando las reglas del Sudoku (filas, columnas y sub-bloques).
+     *
+     * @param tablero Tablero en el que se quiere colocar el número.
+     * @param fila Fila de la celda.
+     * @param colum Columna de la celda.
+     * @param num Número a colocar.
+     * @return true si el número es válido en esa celda, false si no lo es.
+     */
     private boolean esValidoEnTablero(int[][] tablero, int fila, int colum, int num) {
         for (int c = 0; c < SIZE; c++) {
             if (tablero[fila][c] == num) return false;
